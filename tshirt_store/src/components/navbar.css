@@ -1,0 +1,24 @@
+.navbar{
+    background-color: rgb(200, 197, 197); 
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 40px 0px 20px;
+}
+.navbar div{
+    height:20px;
+    padding-top: 18px;
+}
+
+.proddiv{
+display: flex;
+ gap:2rem; 
+}
+.product{
+    color:black;
+}
+
+@media only screen and (max-width: 600px) {
+    .product{
+     display: none;
+    }
+  }

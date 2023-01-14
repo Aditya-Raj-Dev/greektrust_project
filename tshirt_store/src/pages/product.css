@@ -1,0 +1,43 @@
+.products{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 200px 10px 100px;
+}
+.prodbox{
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+    padding: 5px 10px 5px 10px;
+}
+
+.prodcontainer{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap:3rem;
+    margin-top: 3rem;
+}
+.pricediv{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.button{
+    color: white;
+    background-color: black;
+}
+
+.filterbox{
+    margin-top: 4rem;
+text-align: left;
+}
+
+.filterbox div div{
+    display: flex;
+    gap:10px
+}
+.filterbox div div input{
+ height: 15px;
+ width: 15px;
+ 
+}
+
+
+
