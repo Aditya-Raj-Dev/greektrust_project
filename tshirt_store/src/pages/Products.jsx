@@ -26,7 +26,13 @@ const Products = () => {
    let d=data.filter((item)=>{
     return  (item.name.toLocaleLowerCase())===(searchdata.toLocaleLowerCase())
    })
+   if(d.length>0){
     setNewData(d)
+  }  
+  else{
+    alert("No item")
+  }
+   
   }
 
 console.log(cart)
