@@ -1,103 +1,85 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Appcontext } from "../Appcontext/Appcontext";
 import "./product.css";
-import {FaSearch } from 'react-icons/fa';
+import { FaSearch } from "react-icons/fa";
 
 const Products = () => {
-  const { data,cart,setCart } = useContext(Appcontext);
+  const { data, cart, setCart } = useContext(Appcontext);
   const [newdata, setNewData] = useState([]);
-  const [searchdata,setSearchdata]=useState("")
+  const [searchdata, setSearchdata] = useState("");
 
-  function addtocart(item){
-    if(cart.includes(item)){
-      alert("Already Present in the Cart")
-      return
+  function addtocart(item) {
+    if (cart.includes(item)) {
+      alert("Already Present in the Cart");
+      return;
     }
-    item.qty=1
-   setCart([
-    ...cart,item
-   ])
-   
+    item.qty = 1;
+    setCart([...cart, item]);
   }
 
-
-  function handlesearch(){
-    console.log(data)
-   let d=data.filter((item)=>{
-    return  (item.name.toLocaleLowerCase())===(searchdata.toLocaleLowerCase())
-   })
-   if(d.length>0){
-    setNewData(d)
-  }  
-  else{
-    alert("No item")
-  }
-   
+  function handlesearch() {
+    console.log(data);
+    let d = data.filter((item) => {
+      return item.name.toLocaleLowerCase() === searchdata.toLocaleLowerCase();
+    });
+    if (d.length > 0) {
+      setNewData(d);
+    } else {
+      alert("No item");
+    }
   }
 
-console.log(cart)
-
+  console.log(cart);
 
   let colorarr = [];
-  let colordata=[]
+  let colordata = [];
   let genderarr = [];
-  let genderdata =[]
-  let typearr=[]
-  let typedata=[]
-  let finalarr=[]
+  let genderdata = [];
+  let typearr = [];
+  let typedata = [];
+  let finalarr = [];
   function handlefilter(e) {
-    if(["Black", "Grey", "Green", "Red", "Blue"].includes(e.target.value)) {
-      if(colorarr.includes(e.target.value)){
+    if (["Black", "Grey", "Green", "Red", "Blue"].includes(e.target.value)) {
+      if (colorarr.includes(e.target.value)) {
         let k = colorarr.indexOf(e.target.value);
-         colorarr.splice(k, 1);
-       
+        colorarr.splice(k, 1);
       } else {
         colorarr.push(e.target.value);
-    
       }
-      colordata= data.filter((item) => {
+      colordata = data.filter((item) => {
         return colorarr.includes(item.color);
       });
       // console.log("color",colordata)
-       
     } else if (["Men", "Women"].includes(e.target.value)) {
-        if(genderarr.includes(e.target.value)){
-          let k = genderarr.indexOf(e.target.value);
-          genderarr.splice(k, 1);
-        }
-        else{
-          genderarr.push(e.target.value);
-        }
-        genderdata=data.filter((item)=>{
-          return genderarr.includes(item.gender)
-        })
-       
-    }
-    else if (["Polo", "Hoodie","Basic"].includes(e.target.value)) {
-      if(typearr.includes(e.target.value)){
+      if (genderarr.includes(e.target.value)) {
+        let k = genderarr.indexOf(e.target.value);
+        genderarr.splice(k, 1);
+      } else {
+        genderarr.push(e.target.value);
+      }
+      genderdata = data.filter((item) => {
+        return genderarr.includes(item.gender);
+      });
+    } else if (["Polo", "Hoodie", "Basic"].includes(e.target.value)) {
+      if (typearr.includes(e.target.value)) {
         let k = typearr.indexOf(e.target.value);
         typearr.splice(k, 1);
-      }
-      else{
+      } else {
         typearr.push(e.target.value);
       }
-      typedata=data.filter((item)=>{
-        return typearr.includes(item.type)
-      })
-     
+      typedata = data.filter((item) => {
+        return typearr.includes(item.type);
+      });
+    } else {
+    }
+    finalarr = [...typedata, ...genderdata, ...colordata];
+    setNewData(finalarr);
+    console.log(finalarr, "final");
   }
-  else{
-     
-   }
-  finalarr=[...typedata,...genderdata, ...colordata]
-     setNewData(finalarr)
-  console.log(finalarr,"final")
-  }
-    
 
   useEffect(() => {
     setNewData(data);
-  //  console.log(newdata,"lkjl");
+    //  console.log(newdata,"lkjl");
   }, [data]);
   return (
     <div className="products">
@@ -171,25 +153,30 @@ console.log(cart)
         <br />
         <br />
         <div className="search">
-        <input type="text"  placeholder="Search Your  Product"  onChange={(e)=>setSearchdata(e.target.value)} />
-          
-          <FaSearch fontSize="30px" onClick={handlesearch}/>
+          <input
+            type="text"
+            placeholder="Search Your  Product"
+            onChange={(e) => setSearchdata(e.target.value)}
+          />
+
+          <FaSearch fontSize="30px" onClick={handlesearch} />
         </div>
-        
-         
-      <div className="prodcontainer">
-        {newdata &&
-          newdata.map((item) => (
-            <div key={item.id} className="prodbox">
-              <h2>{item.name}</h2>
-              <img src={item.imageURL} alt="" height="150px" />
-              <div className="pricediv">
-                <h3>Rs. {item.price}</h3>
-                <button className="button" onClick={()=>addtocart(item)}>Add to cart</button>
+
+        <div className="prodcontainer">
+          {newdata &&
+            newdata.map((item) => (
+              <div key={item.id} className="prodbox">
+                <h2>{item.name}</h2>
+                <img src={item.imageURL} alt="" height="150px" />
+                <div className="pricediv">
+                  <h3>Rs. {item.price}</h3>
+                  <button className="button" onClick={() => addtocart(item)}>
+                    Add to cart
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
-      </div>
+            ))}
+        </div>
       </div>
     </div>
   );
