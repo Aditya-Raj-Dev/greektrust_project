@@ -4,6 +4,7 @@ export const Appcontext=createContext()
 
 export default  function Appcontextprovider({children}){
     const [data,setData]=useState([])
+    const [cart,setCart]=useState([])
 
     function getdata(){
       fetch("https://geektrust.s3.ap-southeast-1.amazonaws.com/coding-problems/shopping-cart/catalogue.json")
@@ -14,7 +15,7 @@ export default  function Appcontextprovider({children}){
         getdata()
     },[])
  return (
-    <Appcontext.Provider value={{data}}>
+    <Appcontext.Provider value={{data,cart,setCart}}>
         {children}
     </Appcontext.Provider>
  )

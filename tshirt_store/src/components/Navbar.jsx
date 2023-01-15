@@ -8,7 +8,7 @@ const Navbar = () => {
       <h2>TeeRex Store</h2>
       <div className='proddiv'>
         <Link  className="product" to="/" >Products</Link>
-       <BsCart fontSize="30px"/>
+      <Link to="/cart"> <BsCart fontSize="30px"/></Link>
       </div>
     </div>
   )

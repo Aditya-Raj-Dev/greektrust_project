@@ -1,10 +1,36 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Appcontext } from "../Appcontext/Appcontext";
 import "./product.css";
+import {FaSearch } from 'react-icons/fa';
 
 const Products = () => {
-  const { data } = useContext(Appcontext);
+  const { data,cart,setCart } = useContext(Appcontext);
   const [newdata, setNewData] = useState([]);
+  const [searchdata,setSearchdata]=useState("")
+
+  function addtocart(item){
+    if(cart.includes(item)){
+      alert("Already Present in the Cart")
+      return
+    }
+    item.qty=1
+   setCart([
+    ...cart,item
+   ])
+   
+  }
+
+
+  function handlesearch(){
+    console.log(data)
+   let d=data.filter((item)=>{
+    return  (item.name.toLocaleLowerCase())===(searchdata.toLocaleLowerCase())
+   })
+    setNewData(d)
+  }
+
+console.log(cart)
+
 
   let colorarr = [];
   let colordata=[]
@@ -12,11 +38,12 @@ const Products = () => {
   let genderdata =[]
   let typearr=[]
   let typedata=[]
+  let finalarr=[]
   function handlefilter(e) {
     if(["Black", "Grey", "Green", "Red", "Blue"].includes(e.target.value)) {
       if(colorarr.includes(e.target.value)){
         let k = colorarr.indexOf(e.target.value);
-        colorarr.splice(k, 1);
+         colorarr.splice(k, 1);
        
       } else {
         colorarr.push(e.target.value);
@@ -25,9 +52,8 @@ const Products = () => {
       colordata= data.filter((item) => {
         return colorarr.includes(item.color);
       });
-      // // console.log("color",colordata)
-
-       console.log("arr",colorarr)
+      // console.log("color",colordata)
+       
     } else if (["Men", "Women"].includes(e.target.value)) {
         if(genderarr.includes(e.target.value)){
           let k = genderarr.indexOf(e.target.value);
@@ -39,7 +65,7 @@ const Products = () => {
         genderdata=data.filter((item)=>{
           return genderarr.includes(item.gender)
         })
-        console.log(genderdata,"hkjjg")
+       
     }
     else if (["Polo", "Hoodie","Basic"].includes(e.target.value)) {
       if(typearr.includes(e.target.value)){
@@ -52,18 +78,20 @@ const Products = () => {
       typedata=data.filter((item)=>{
         return typearr.includes(item.type)
       })
-      console.log(typedata,"hkjjg")
+     
   }
   else{
-     console.log('sadfl') 
+     
    }
+  finalarr=[...typedata,...genderdata, ...colordata]
+     setNewData(finalarr)
+  console.log(finalarr,"final")
   }
-  //  let finalarr=[...typedata,...genderdata,...colordata]
-  //    setNewData(finalarr)
+    
 
   useEffect(() => {
     setNewData(data);
-    console.log(newdata);
+  //  console.log(newdata,"lkjl");
   }, [data]);
   return (
     <div className="products">
@@ -133,6 +161,16 @@ const Products = () => {
           </div>
         </div>
       </div>
+      <div>
+        <br />
+        <br />
+        <div className="search">
+        <input type="text"  placeholder="Search Your  Product"  onChange={(e)=>setSearchdata(e.target.value)} />
+          
+          <FaSearch fontSize="30px" onClick={handlesearch}/>
+        </div>
+        
+         
       <div className="prodcontainer">
         {newdata &&
           newdata.map((item) => (
@@ -141,10 +179,11 @@ const Products = () => {
               <img src={item.imageURL} alt="" height="150px" />
               <div className="pricediv">
                 <h3>Rs. {item.price}</h3>
-                <button className="button">Add to cart</button>
+                <button className="button" onClick={()=>addtocart(item)}>Add to cart</button>
               </div>
             </div>
           ))}
+      </div>
       </div>
     </div>
   );
